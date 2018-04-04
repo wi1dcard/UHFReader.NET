@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UHFReader.NET", "UHFReader.NET\UHFReader.NET.csproj", "{6BDCFD87-4C0B-4B22-9430-A6CB71E32981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{A0C8E4E2-7114-4C6D-9F0E-DECC3D7B9DDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BDCFD87-4C0B-4B22-9430-A6CB71E32981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BDCFD87-4C0B-4B22-9430-A6CB71E32981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BDCFD87-4C0B-4B22-9430-A6CB71E32981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BDCFD87-4C0B-4B22-9430-A6CB71E32981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C8E4E2-7114-4C6D-9F0E-DECC3D7B9DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C8E4E2-7114-4C6D-9F0E-DECC3D7B9DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C8E4E2-7114-4C6D-9F0E-DECC3D7B9DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C8E4E2-7114-4C6D-9F0E-DECC3D7B9DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58387398-173D-4C54-985C-D54EF198EA34}
+	EndGlobalSection
+EndGlobal
