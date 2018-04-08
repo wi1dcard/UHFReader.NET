@@ -51,6 +51,5 @@
     <Compile Include="Constants\Results.cs" />
     <Compile Include="Base\LoadMemLibrary.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

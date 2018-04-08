@@ -10,8 +10,6 @@ namespace UHFReader
 {
 	public class Reader : ReaderBase
 	{
-
-
 		public List<byte[]> Inventory_G2(byte AdrTID, byte LenTID, byte TIDFlag)
 		{
 			var epcBytes = new byte[4096];
