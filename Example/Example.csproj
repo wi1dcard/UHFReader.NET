@@ -54,5 +54,13 @@
       <Name>UHFReader.NET</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="LoadMemLibrary.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UHFReader18.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
