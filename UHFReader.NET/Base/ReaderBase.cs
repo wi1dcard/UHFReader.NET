@@ -22,7 +22,7 @@ namespace UHFReader.Base
 		private int ErrorToException(int Result)
 		{
 			if (Result != 0 && Result != Results.InventoryReturnEarly_G2)
-				throw new Exception("UHF Reader Error: " + Result.ToString());
+				throw new Exception("UHF Reader Error: 0x" + Result.ToString("X"));
 			return Result;
 		}
 
