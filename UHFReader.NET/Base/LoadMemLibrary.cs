@@ -33,7 +33,7 @@ namespace UHFReader.Base
 		public static extern bool FreeMemLibrary(IntPtr hModule);
 
 		[DllImport(Kernel)]
-		public static extern IntPtr GetMemProcAddress(SafeLibraryHandle hModule, String procname);
+		public static extern IntPtr GetMemProcAddress(SafeLibraryHandle hModule, String procName);
 	}
 
 	/// <summary>
