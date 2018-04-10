@@ -17,23 +17,23 @@ namespace UHFReader.Base
 		private SafeLibraryHandle() : base(true) { }
 		protected override bool ReleaseHandle()
 		{
-			return LoadMemLibrary.FreeMemLibrary(handle);
+			return LoadMemLibrary.FreeLibrary(handle);
 		}
 	}
 
 	static class LoadMemLibrary
 	{
 		const string Kernel = "LoadMemLibrary.dll";
-		[DllImport(Kernel, CharSet = CharSet.Ansi, BestFitMapping = false, SetLastError = true)]
-		public static extern SafeLibraryHandle LoadMemLibraryByFilename(String fileName);
+		[DllImport(Kernel, CharSet = CharSet.Ansi, BestFitMapping = false, SetLastError = true, EntryPoint = "LoadMemLibraryByFilename")]
+		public static extern SafeLibraryHandle LoadLibrary(String fileName);
 
 		[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
-		[DllImport(Kernel, SetLastError = true)]
+		[DllImport(Kernel, SetLastError = true, EntryPoint = "FreeMemLibrary")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool FreeMemLibrary(IntPtr hModule);
+		public static extern bool FreeLibrary(IntPtr hModule);
 
-		[DllImport(Kernel)]
-		public static extern IntPtr GetMemProcAddress(SafeLibraryHandle hModule, String procName);
+		[DllImport(Kernel, EntryPoint = "GetMemProcAddress")]
+		public static extern IntPtr GetProcAddress(SafeLibraryHandle hModule, String procName);
 	}
 
 	/// <summary>
@@ -56,7 +56,7 @@ namespace UHFReader.Base
 		/// that the file is not a  loadable image.</remarks>
 		public MemLibrary(string fileName)
 		{
-			m_hLibrary = LoadMemLibrary.LoadMemLibraryByFilename(fileName);
+			m_hLibrary = LoadMemLibrary.LoadLibrary(fileName);
 			if (m_hLibrary.IsInvalid)
 			{
 				int hr = Marshal.GetHRForLastWin32Error();
@@ -78,7 +78,7 @@ namespace UHFReader.Base
 		/// the library and then the CLR may call release on that IUnknown and it will crash.</remarks>
 		public TDelegate GetUnmanagedFunction<TDelegate>(string functionName) where TDelegate : class
 		{
-			IntPtr p = LoadMemLibrary.GetMemProcAddress(m_hLibrary, functionName);
+			IntPtr p = LoadMemLibrary.GetProcAddress(m_hLibrary, functionName);
 
 			// Failure is a common case, especially for adaptive code.
 			if (p == IntPtr.Zero)
