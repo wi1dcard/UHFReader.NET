@@ -8,9 +8,20 @@ using System.IO;
 
 namespace UHFReader
 {
-	public class Reader : ReaderBase
+	public class Reader : ReaderBase, IDisposable
 	{
-		//public 
+		public void Dispose()
+		{
+			try
+			{
+				this.CloseComPort();
+				this.CloseNetPort();
+			}
+			catch
+			{
+
+			}
+		}
 
 		public List<byte[]> Inventory_G2(byte AdrTID, byte LenTID, byte TIDFlag)
 		{
