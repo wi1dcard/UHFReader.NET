@@ -16,7 +16,7 @@ namespace UHFReader.Readers
 
 		~NetReader()
 		{
-			this.CloseNetPort();
+			//this.CloseNetPort();
 		}
 	}
 }

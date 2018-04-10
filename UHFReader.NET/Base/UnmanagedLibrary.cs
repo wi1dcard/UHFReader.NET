@@ -4,24 +4,13 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Microsoft.Win32.SafeHandles;
 
+//-------
+// Reference: https://blogs.msdn.microsoft.com/jmstall/2007/01/06/type-safe-managed-wrappers-for-kernel32getprocaddress/
+//-------
+
 namespace UHFReader.Base
 {
-	//-------
-	// Reference: https://blogs.msdn.microsoft.com/jmstall/2007/01/06/type-safe-managed-wrappers-for-kernel32getprocaddress/
-	//-------
-
-	// See http://msdn.microsoft.com/msdnmag/issues/05/10/Reliability/ for more about safe handles.
-	[SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
-	sealed class SafeLibraryHandle : SafeHandleZeroOrMinusOneIsInvalid
-	{
-		private SafeLibraryHandle() : base(true) { }
-		protected override bool ReleaseHandle()
-		{
-			return LoadMemLibrary.FreeLibrary(handle);
-		}
-	}
-
-	static class LoadMemLibrary
+	static class MemLibraryLoader
 	{
 		const string Kernel = "LoadMemLibrary.dll";
 		[DllImport(Kernel, CharSet = CharSet.Ansi, BestFitMapping = false, SetLastError = true, EntryPoint = "LoadMemLibraryByFilename")]
@@ -36,13 +25,39 @@ namespace UHFReader.Base
 		public static extern IntPtr GetProcAddress(SafeLibraryHandle hModule, String procName);
 	}
 
+	static class LibraryLoader
+	{
+		const string Kernel = "Kernel32.dll";
+		[DllImport(Kernel, CharSet = CharSet.Ansi, BestFitMapping = false, SetLastError = true)]
+		public static extern SafeLibraryHandle LoadLibrary(String fileName);
+
+		[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+		[DllImport(Kernel, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool FreeLibrary(IntPtr hModule);
+
+		[DllImport(Kernel)]
+		public static extern IntPtr GetProcAddress(SafeLibraryHandle hModule, String procName);
+	}
+
+	// See http://msdn.microsoft.com/msdnmag/issues/05/10/Reliability/ for more about safe handles.
+	[SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
+	sealed class SafeLibraryHandle : SafeHandleZeroOrMinusOneIsInvalid
+	{
+		private SafeLibraryHandle() : base(true) { }
+		protected override bool ReleaseHandle()
+		{
+			return MemLibraryLoader.FreeLibrary(handle);
+		}
+	}
+
 	/// <summary>
 	/// Utility class to wrap an unmanaged DLL and be responsible for freeing it.
 	/// </summary>
 	/// <remarks>This is a managed wrapper over the native LoadLibrary, GetProcAddress, and
 	/// FreeLibrary calls.
 	/// </example>
-	public class MemLibrary : IDisposable
+	public class UnmanagedLibrary : IDisposable
 	{
 		// Unmanaged resource. CLR will ensure SafeHandles get freed, without requiring a finalizer on this class.
 		SafeLibraryHandle m_hLibrary;
@@ -54,9 +69,9 @@ namespace UHFReader.Base
 		/// <exception cref="System.IO.FileNotFound">if fileName can't be found</exception>
 		/// <remarks>Throws exceptions on failure. Most common failure would be file-not-found, or
 		/// that the file is not a  loadable image.</remarks>
-		public MemLibrary(string fileName)
+		public UnmanagedLibrary(string fileName)
 		{
-			m_hLibrary = LoadMemLibrary.LoadLibrary(fileName);
+			m_hLibrary = MemLibraryLoader.LoadLibrary(fileName);
 			if (m_hLibrary.IsInvalid)
 			{
 				int hr = Marshal.GetHRForLastWin32Error();
@@ -78,7 +93,7 @@ namespace UHFReader.Base
 		/// the library and then the CLR may call release on that IUnknown and it will crash.</remarks>
 		public TDelegate GetUnmanagedFunction<TDelegate>(string functionName) where TDelegate : class
 		{
-			IntPtr p = LoadMemLibrary.GetProcAddress(m_hLibrary, functionName);
+			IntPtr p = MemLibraryLoader.GetProcAddress(m_hLibrary, functionName);
 
 			// Failure is a common case, especially for adaptive code.
 			if (p == IntPtr.Zero)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UHFReader
 {
-	static class Results
+	public static class Results
 	{
 		/// <summary>
 		/// 询查时间结束前返回

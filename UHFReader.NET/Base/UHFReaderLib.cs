@@ -8,11 +8,16 @@ namespace UHFReader.Base
 {
 	public class UHFReaderLib
 	{
-		protected MemLibrary libInstance;
+		protected UnmanagedLibrary libInstance;
+
+		~UHFReaderLib()
+		{
+			libInstance.Dispose();
+		}
 
 		public UHFReaderLib(string libPath)
 		{
-			libInstance = new MemLibrary(libPath);
+			libInstance = new UnmanagedLibrary(libPath);
 
 			this.OpenNetPort = libInstance.GetUnmanagedFunction<UHFReaderDelegates.OpenNetPort>("OpenNetPort");
 			this.CloseNetPort = libInstance.GetUnmanagedFunction<UHFReaderDelegates.CloseNetPort>("CloseNetPort");

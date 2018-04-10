@@ -21,7 +21,7 @@ namespace UHFReader.Readers
 
 		~ComReader()
 		{
-			this.CloseComPort();
+			//this.CloseComPort();
 		}
 	}
 }

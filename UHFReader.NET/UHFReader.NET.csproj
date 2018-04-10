@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Readers\ComReader.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Base\UHFReaderLib.cs" />
@@ -49,7 +50,7 @@
     <Compile Include="Base\UHFReaderDelegates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\Results.cs" />
-    <Compile Include="Base\LoadMemLibrary.cs" />
+    <Compile Include="Base\UnmanagedLibrary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

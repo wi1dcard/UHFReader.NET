@@ -25,7 +25,7 @@ namespace UHFReader.Base
 				Result != Results.InventoryReturnEarly_G2 &&
 				Result != Results.NoTagOperation
 				)
-				throw new Exception("UHF Reader Error: 0x" + Result.ToString("X"));
+				throw new Exceptions.BaseException(Result, "UHF Reader Error: 0x" + Result.ToString("X"));
 			return Result;
 		}
 

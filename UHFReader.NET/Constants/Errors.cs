@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UHFReader
 {
-	class Errors
+	public static class Errors
 	{
 		/// <summary>
 		///  其它错误，全部捕捉未被其它代码覆盖的错误

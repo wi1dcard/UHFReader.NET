@@ -10,13 +10,14 @@ namespace UHFReader
 {
 	public class Reader : ReaderBase
 	{
+		//public 
+
 		public List<byte[]> Inventory_G2(byte AdrTID, byte LenTID, byte TIDFlag)
 		{
 			var epcBytes = new byte[4096];
 			var epcBytesLen = 0;
 			var cards = 0;
 			base.Inventory_G2(AdrTID, LenTID, TIDFlag, epcBytes, ref epcBytesLen, ref cards);
-
 
 			var epcList = new List<byte[]>(cards);
 			using(var epcStream = new MemoryStream(epcBytes, 0, epcBytesLen))
