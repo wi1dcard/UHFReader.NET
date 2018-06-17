@@ -27,13 +27,13 @@ namespace UHFReader
 		{
 			var epcBytes = new byte[4096];
 			var epcBytesLen = 0;
-			var cards = 0;
-			base.Inventory_G2(AdrTID, LenTID, TIDFlag, epcBytes, ref epcBytesLen, ref cards);
+			var epcCount = 0;
+			base.Inventory_G2(AdrTID, LenTID, TIDFlag, epcBytes, ref epcBytesLen, ref epcCount);
 
-			var epcList = new List<byte[]>(cards);
+			var epcList = new List<byte[]>(epcCount);
 			using(var epcStream = new MemoryStream(epcBytes, 0, epcBytesLen))
 			{
-				for(int i = 0; i< cards;i++)
+				for(int i = 0; i< epcCount;i++)
 				{
 					var len = epcStream.ReadByte();
 					var epc = new byte[len];
@@ -43,7 +43,7 @@ namespace UHFReader
 
 				if(epcStream.Position != epcStream.Length)
 				{
-					throw new Exception("Cards Count Not Match");
+					throw new Exception("Tag count doesn't match.");
 				}
 			}
 
