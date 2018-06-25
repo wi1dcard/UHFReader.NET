@@ -20,10 +20,10 @@
 
 为了让这个「弃坑」项目能够发挥一点余热，我还是写了个名叫「Rfid Client」的玩意儿，用于 Web 应用连接 USB 标签读写设备，可用于发行标签的业务场景。
 
-此项目稍后开源。
+此项目已开源：<https://github.com/wi1dcard/RfidClient>
 
 ## 基于设备原始协议的「Rfid Server」项目
 
 弃坑之后，和设备通信的重任，交给了 SuperSocket 身上，真是逼我撸协议...
 
-此项目稍后开源。
+此项目已开源：<https://github.com/wi1dcard/RfidServer>
